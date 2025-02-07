@@ -19,3 +19,12 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.main {
+  text-align: center;
+  font-size: 30px;
+}
+
+.main p {
+  margin-bottom: 40px;
+}
