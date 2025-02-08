@@ -8,7 +8,6 @@ import Link from "next/link"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
 import { SvgIcon, SvgIconProps } from '@mui/material'
 
-
 function GreenFilledCircleIcon(props: SvgIconProps) {
     return (
       <SvgIcon {...props}>
