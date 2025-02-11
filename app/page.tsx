@@ -3,9 +3,9 @@ import Button from '@mui/material/Button'
 
 export default function HomePage() {
   return (
-    <div className="main">
+    <div style={{ textAlign: "center", fontSize: "30px"}}>
       <h1>診断テスト</h1>
-      <p>診断テストへようこそ。下のボタンを押して診断テストを始めましょう</p>
+      <p style={{marginBottom: "40px"}}>診断テストへようこそ。下のボタンを押して診断テストを始めましょう</p>
       <Link href="/diagnosis">
         <Button variant="contained" 
         sx={{
