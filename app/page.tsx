@@ -12,7 +12,7 @@ export default function HomePage() {
           fontSize: "30px",
           backgroundColor: "#CF9FFF",
           color: "#fff",
-        }}>診断テストを始める</Button>
+        }}>診断テストを始める→</Button>
       </Link>
     </div>
   )}

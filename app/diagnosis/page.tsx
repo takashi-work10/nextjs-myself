@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import {useState} from "react";
 import {useRouter} from "next/navigation"
 import Button from '@mui/material/Button'
 import Radio from "@mui/material/Radio"
@@ -11,7 +11,6 @@ import FormLabel from "@mui/material/FormLabel"
 import Link from "next/link"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
 import { SvgIcon, SvgIconProps } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
 
 function GreenFilledCircleIcon(props: SvgIconProps) {
     return (
@@ -411,7 +410,7 @@ export default function Diagnosis() {
                     fontSize: "30px",
                     backgroundColor: "#CF9FFF",
                     color: "#fff",  
-                }} onClick={handleClick}>結果を見る</Button>
+                }} onClick={handleClick}>結果を見る→</Button>
             </Link>
         </div>
     )

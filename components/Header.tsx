@@ -12,7 +12,7 @@ export default function Header() {
                     </Typography>
                 </Link>
                 <Link href="/login">
-                    <Button>Login</Button>
+                    <Button>ログイン</Button>
                 </Link>
             </Toolbar>
         </AppBar>

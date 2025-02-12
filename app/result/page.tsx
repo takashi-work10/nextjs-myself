@@ -4,6 +4,7 @@ import {useSearchParams} from "next/navigation"
 import Link from "next/link"
 import Button from '@mui/material/Button'
 
+
 export default function Result() {
     const searchParams = useSearchParams()
 
@@ -61,7 +62,7 @@ export default function Result() {
             <h1 style={{fontSize: "2rem"}}>診断結果</h1>
             <p style={{whiteSpace: "pre-wrap", fontSize: "20px"}}>{resultText}</p>
             <Link href="/">
-                <Button variant="contained" sx={{margin: "20px", fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff"}}>ホームに戻る</Button>
+                <Button variant="contained" sx={{margin: "20px", fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff"}}>ホームに戻る→</Button>
             </Link>
         </div>
     )
