@@ -1,23 +1,24 @@
 // models/DiagnosisResult.ts
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose from "mongoose";
 
-export interface IDiagnosisResult extends Document {
-  group: number;      // 最も高かったグループ番号（1～4）
-  score: number;      // 全体の合計スコア
-  resultText: string; // 結果のテキスト
-  answers: number[];  // 個々の質問の答え（例として16問分の数値）
+// TypeScriptの設計図（interface）です。
+// IDiagnosisResultは、MongoDBに保存する診断結果の形を定義しています。
+export interface IDiagnosisResult extends mongoose.Document {
+  pattern: "A" | "B" | "C" | "D"; // 結果パターンは4種類
+  answers: number[];             // 16問分の答えの配列（例: [1,2,...,16]）
   createdAt: Date;
 }
 
-const DiagnosisResultSchema: Schema = new Schema({
-  group: { type: Number, required: true },
-  score: { type: Number, required: true },
-  resultText: { type: String, required: true },
+// DiagnosisResultSchemaは、実際にMongoDBに保存する際のルール（スキーマ）です。
+const DiagnosisResultSchema = new mongoose.Schema({
+  pattern: { type: String, enum: ["A", "B", "C", "D"], required: true },
   answers: { type: [Number], required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
-const DiagnosisResult: Model<IDiagnosisResult> =
+// DiagnosisResultモデルは、DiagnosisResultSchemaに基づいて作られた
+// データ操作用の道具です。すでに同じ名前のモデルがあれば再利用します。
+const DiagnosisResult =
   mongoose.models.DiagnosisResult ||
   mongoose.model<IDiagnosisResult>("DiagnosisResult", DiagnosisResultSchema);
 

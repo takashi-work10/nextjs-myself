@@ -21,32 +21,79 @@ function GreenFilledCircleIcon(props: SvgIconProps) {
   }
 
 export default function Diagnosis() {
-    const [answer1, setAnswer1] = useState("");
-    const [answer2, setAnswer2] = useState("");
-    const [answer3, setAnswer3] = useState("");
-    const [answer4, setAnswer4] = useState("");
-    const [answer5, setAnswer5] = useState("");
-    const [answer6, setAnswer6] = useState("");
-    const [answer7, setAnswer7] = useState("");
-    const [answer8, setAnswer8] = useState("");
-    const [answer9, setAnswer9] = useState("");
-    const [answer10, setAnswer10] = useState("");
-    const [answer11, setAnswer11] = useState("");
-    const [answer12, setAnswer12] = useState("");
-    const [answer13, setAnswer13] = useState("");
-    const [answer14, setAnswer14] = useState("");
-    const [answer15, setAnswer15] = useState("");
-    const [answer16, setAnswer16] = useState("");
-  
+    const [answer1, setAnswer1] = useState<number>(1);
+    const [answer2, setAnswer2] = useState<number>(1);
+    const [answer3, setAnswer3] = useState<number>(1);
+    const [answer4, setAnswer4] = useState<number>(1);
+    const [answer5, setAnswer5] = useState<number>(1);
+    const [answer6, setAnswer6] = useState<number>(1);
+    const [answer7, setAnswer7] = useState<number>(1);
+    const [answer8, setAnswer8] = useState<number>(1);
+    const [answer9, setAnswer9] = useState<number>(1);
+    const [answer10, setAnswer10] = useState<number>(1);
+    const [answer11, setAnswer11] = useState<number>(1);
+    const [answer12, setAnswer12] = useState<number>(1);
+    const [answer13, setAnswer13] = useState<number>(1);
+    const [answer14, setAnswer14] = useState<number>(1);
+    const [answer15, setAnswer15] = useState<number>(1);
+    const [answer16, setAnswer16] = useState<number>(1);
+
+    const answersArray = [
+        answer1, answer2, answer3, answer4,
+        answer5, answer6, answer7, answer8,
+        answer9, answer10, answer11, answer12,
+        answer13, answer14, answer15, answer16
+      ];
   
     const router = useRouter()
-  
-    // クエリパラメータを作成する（例：?a1=1&a2=2&a3=3）
-    const query = `?q1=${answer1}&q2=${answer2}&q3=${answer3}&q4=${answer4}&q5=${answer5}&q6=${answer6}&q7=${answer7}&q8=${answer8}&q9=${answer9}&q10=${answer10}&q11=${answer11}&q12=${answer12}&q13=${answer13}&q14=${answer14}&q15=${answer15}&q16=${answer16}`;
-  
-    const handleClick = () => {
-      router.push(`/result${query}`)
+
+    const group1 = answer1 + answer2 + answer3 + answer4
+    const group2 = answer5 + answer6 + answer7 + answer8
+    const group3 = answer9 + answer10 + answer11 + answer12
+    const group4 = answer13 + answer14 + answer15 + answer16
+
+    let highestGroup = 1
+    let highestScore = group1
+    if (group2 > highestScore) {
+        highestGroup =2
+        highestScore = group2
     }
+    if (group3 > highestScore) {
+        highestGroup =3
+        highestScore = group3
+    }
+    if (group4 > highestScore) {
+        highestGroup = 4
+        highestScore = group4
+    }
+
+    let pattern = "";
+    if (highestGroup === 1) {
+        pattern = "A"
+    } else if (highestGroup === 2) {
+        pattern = "B"
+    } else if (highestGroup === 3) {
+        pattern = "C"
+    } else if (highestGroup === 4) {
+        pattern = "D"
+    }
+
+    const handleSubmit = async () => {
+        const answersArray = [
+            answer1, answer2, answer3, answer4,
+            answer5, answer6, answer7, answer8,
+            answer9, answer10, answer11, answer12,
+            answer13, answer14, answer15, answer16
+          ];
+        console.log("送信前の answersArray:", answersArray);
+        const payload = { pattern, answers: answersArray };
+        await fetch("/api/saveDiagnosis", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        router.push("/result");
+      };
 
     return(
         <div style={{marginTop: "20px",   display: "flex", flexDirection: "column", alignItems: "center", }}>
@@ -58,7 +105,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer1} onChange={(e) => setAnswer1(e.target.value)}>
+                            <RadioGroup row name="q1" value={answer1.toString()} onChange={(e) => {console.log("Q1の新しい値:", e.target.value); setAnswer1(Number(e.target.value)); }}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -80,7 +127,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer2} onChange={(e) => setAnswer2(e.target.value)}>
+                            <RadioGroup row name="q2" value={answer2.toString()} onChange={(e) => {console.log("Q2の新しい値:", e.target.value);setAnswer2(Number(e.target.value))}}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -102,7 +149,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer3} onChange={(e) => setAnswer3(e.target.value)}>
+                            <RadioGroup row name="q3" value={answer3.toString()} onChange={(e) => setAnswer3(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -124,7 +171,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer4} onChange={(e) => setAnswer4(e.target.value)}>
+                            <RadioGroup row name="q4" value={answer4.toString()} onChange={(e) => setAnswer4(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -146,7 +193,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer5} onChange={(e) => setAnswer5(e.target.value)}>
+                            <RadioGroup row name="q5" value={answer5.toString()} onChange={(e) => setAnswer5(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -168,7 +215,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer6} onChange={(e) => setAnswer6(e.target.value)}>
+                            <RadioGroup row name="q6" value={answer6.toString()} onChange={(e) => setAnswer6(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -190,7 +237,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer7} onChange={(e) => setAnswer7(e.target.value)}>
+                            <RadioGroup row name="q7" value={answer7.toString()} onChange={(e) => setAnswer7(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -212,7 +259,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer8} onChange={(e) => setAnswer8(e.target.value)}>
+                            <RadioGroup row name="q8" value={answer8.toString()} onChange={(e) => setAnswer8(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -234,7 +281,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer9} onChange={(e) => setAnswer9(e.target.value)}>
+                            <RadioGroup row name="q9" value={answer9.toString()} onChange={(e) => setAnswer9(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -256,7 +303,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer10} onChange={(e) => setAnswer10(e.target.value)}>
+                            <RadioGroup row name="q10" value={answer10.toString()} onChange={(e) => setAnswer10(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -278,7 +325,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer11} onChange={(e) => setAnswer11(e.target.value)}>
+                            <RadioGroup row name="q11" value={answer11.toString()} onChange={(e) => setAnswer11(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -300,7 +347,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer12} onChange={(e) => setAnswer12(e.target.value)}>
+                            <RadioGroup row name="q12" value={answer12.toString()} onChange={(e) => setAnswer12(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -322,7 +369,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer13} onChange={(e) => setAnswer13(e.target.value)}>
+                            <RadioGroup row name="q13" value={answer13.toString()} onChange={(e) => setAnswer13(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -344,7 +391,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer14} onChange={(e) => setAnswer14(e.target.value)}>
+                            <RadioGroup row name="q14" value={answer14.toString()} onChange={(e) => setAnswer14(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -366,7 +413,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer15} onChange={(e) => setAnswer15(e.target.value)}>
+                            <RadioGroup row name="q15" value={answer15.toString()} onChange={(e) => setAnswer15(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -388,7 +435,7 @@ export default function Diagnosis() {
                             <div style={{alignSelf: "center"}}>
                                 <p>賛成する</p>
                             </div>
-                            <RadioGroup row value={answer16} onChange={(e) => setAnswer16(e.target.value)}>
+                            <RadioGroup row name="q16" value={answer16.toString()} onChange={(e) => setAnswer16(Number(e.target.value))}>
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 70, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 70, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="1" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 60, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 60, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="2" />
                             <Radio icon={<RadioButtonUncheckedIcon sx={{ fontSize: 50, color: "#a0ff8d" }} />} checkedIcon={<SvgIcon sx={{fontSize: 50, color: "#a0ff8d"}}><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M8 12l3 3 6-6" stroke="white" strokeWidth="2" fill="none" /></SvgIcon>} value="3" />
@@ -404,14 +451,9 @@ export default function Diagnosis() {
                     </FormControl>
                 </li>
             </ul>
-            <Link href="/result">
-                <Button variant='contained' 
-                sx={{
-                    fontSize: "30px",
-                    backgroundColor: "#CF9FFF",
-                    color: "#fff",  
-                }} onClick={handleClick}>結果を見る→</Button>
-            </Link>
+            <Button variant="contained" onClick={handleSubmit} sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff" }}>
+                結果を見る→
+            </Button>
         </div>
     )
 }
