@@ -8,7 +8,7 @@ import RadioGroup from "@mui/material/RadioGroup"
 import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
-import { SvgIcon, SvgIconProps } from '@mui/material'
+import { SvgIcon} from '@mui/material'
 
 
 
@@ -32,7 +32,6 @@ export default function Diagnosis() {
 
     const [answered1, setAnswered1] = useState<boolean>(false);
     const [answered2, setAnswered2] = useState<boolean>(false);
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     const [answered3, setAnswered3] = useState<boolean>(false);
     const [answered4, setAnswered4] = useState<boolean>(false);
     const [answered5, setAnswered5] = useState<boolean>(false);
@@ -48,7 +47,6 @@ export default function Diagnosis() {
     const [answered15, setAnswered15] = useState<boolean>(false);
     const [answered16, setAnswered16] = useState<boolean>(false);
 
-    /* eslint-enable @typescript-eslint/no-unused-vars */
     
     const q2Ref = useRef<HTMLLIElement>(null);
     const q3Ref = useRef<HTMLLIElement>(null);

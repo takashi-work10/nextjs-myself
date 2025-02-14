@@ -4,9 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 
-export default function ResultPage() {
-  const [result, setResult] = useState<any>(null);
+interface DiagnosisResult {
+  pattern: string;
+  answers: number[];
+}
 
+export default function ResultPage() {
+  const [result, setResult] = useState<DiagnosisResult | null>(null);
+  
   useEffect(() => {
     async function fetchResult() {
       try {
