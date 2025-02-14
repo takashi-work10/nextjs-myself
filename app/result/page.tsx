@@ -11,7 +11,7 @@ interface DiagnosisResult {
 
 export default function ResultPage() {
   const [result, setResult] = useState<DiagnosisResult | null>(null);
-  
+
   useEffect(() => {
     async function fetchResult() {
       try {
