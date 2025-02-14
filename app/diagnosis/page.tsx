@@ -5,20 +5,12 @@ import {useRouter} from "next/navigation"
 import Button from '@mui/material/Button'
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
 import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
-import Link from "next/link"
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked"
 import { SvgIcon, SvgIconProps } from '@mui/material'
 
-function GreenFilledCircleIcon(props: SvgIconProps) {
-    return (
-      <SvgIcon {...props}>
-        <circle cx="12" cy="12" r="10" fill="currentColor" />
-      </SvgIcon>
-    )
-  }
+
 
 export default function Diagnosis() {
     const [answer1, setAnswer1] = useState<number | null>(null);
@@ -56,12 +48,6 @@ export default function Diagnosis() {
     const [answered15, setAnswered15] = useState<boolean>(false);
     const [answered16, setAnswered16] = useState<boolean>(false);
 
-    const answersArray = [
-        answer1, answer2, answer3, answer4,
-        answer5, answer6, answer7, answer8,
-        answer9, answer10, answer11, answer12,
-        answer13, answer14, answer15, answer16
-      ];
     /* eslint-enable @typescript-eslint/no-unused-vars */
     
     const q2Ref = useRef<HTMLLIElement>(null);
@@ -318,7 +304,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q2Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered1 ? 0.4 : 1, color: answered1 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
+                <li ref={q2Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered2 ? 0.4 : 1, color: answered2 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q2:未来に何が起こるか分からないと、夜も眠れなくなる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -340,7 +326,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q3Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q3Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered3 ? 0.4 : 1, color: answered3 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q3:自分の存在や人生の意味について、ふと疑問に思うことがある。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -362,7 +348,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q4Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q4Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered4 ? 0.4 : 1, color: answered4 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q4:もし最悪のことが起こったら…と常に考えてしまう。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -384,7 +370,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q5Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q5Ref}  style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered5 ? 0.4 : 1, color: answered5 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q5:人前で話すとき、体が固まってしまうほど緊張する。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -406,7 +392,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q6Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q6Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered6 ? 0.4 : 1, color: answered6 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q6:ちょっとした他人の言葉や態度で、自分の価値を疑ってしまう。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -428,7 +414,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q7Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q7Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered7 ? 0.4 : 1, color: answered7 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q7:他人からの批判や否定的なコメントを、長い時間引きずってしまう。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -450,7 +436,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q8Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q8Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered8 ? 0.4 : 1, color: answered8 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q8:初対面の人と話すと、何を言っていいか分からなくなる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -472,7 +458,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q9Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q9Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered9 ? 0.4 : 1, color: answered9 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q9:何事も100%完璧にしなければ気持ちが落ち着かない。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -494,7 +480,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q10Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q10Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered10 ? 0.4 : 1, color: answered10 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q10:一度のミスで、自分の能力に強い不安を感じる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -516,7 +502,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q11Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q11Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered11 ? 0.4 : 1, color: answered11 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q11:体のちょっとした違和感でも、すぐに大病を疑ってしまう。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -538,7 +524,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q12Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q12Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered12 ? 0.4 : 1, color: answered12 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q12:検査で『問題なし』と言われても、安心できず不安になる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -560,7 +546,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q13Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q13Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered13 ? 0.4 : 1, color: answered13 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q13:過去の辛い経験がふとよみがえると、心が乱れてしまう。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -582,7 +568,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q14Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q14Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered14 ? 0.4 : 1, color: answered14 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q14:毎日の忙しさやプレッシャーで、常に心に重荷を感じる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -604,7 +590,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q15Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q15Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered15 ? 0.4 : 1, color: answered15 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q15:仕事や勉強の締め切りが近づくと、強い不安に襲われる。</FormLabel>
                         <div style={{display: "flex"}}>
@@ -626,7 +612,7 @@ export default function Diagnosis() {
                         </div>
                     </FormControl>
                 </li>
-                <li ref={q16Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0"}}>
+                <li ref={q16Ref} style={{borderBottom: "1px solid #ccc", margin: "40px 0", opacity: answered16 ? 0.4 : 1, color: answered16 ? "gray" : "inherit", transition: "all 0.3s ease", padding: "10px", borderRadius: "4px"}}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" sx={{fontWeight: "bold", fontSize: "21px"}}>Q16:些細な出来事で、過去の嫌な記憶が一気に蘇ることがある。</FormLabel>
                         <div style={{display: "flex"}}>
