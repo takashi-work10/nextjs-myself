@@ -14,8 +14,5 @@ export default function HomePage() {
           color: "#fff",
         }}>診断テストを始める→</Button>
       </Link>
-      <Link href="/api/logout">
-        ログアウト
-      </Link>
     </div>
   )}
