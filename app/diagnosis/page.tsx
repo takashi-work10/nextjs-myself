@@ -71,7 +71,7 @@ export default function Diagnosis() {
         if (q2Ref.current) {
           // q2Ref の位置（ページ上での Y 座標）を計算し、60px 分オフセットを引く
           const topPosition =
-            q2Ref.current.getBoundingClientRect().top + window.pageYOffset - 60;
+            q2Ref.current.getBoundingClientRect().top - 60;
           window.scrollTo({ top: topPosition, behavior: "smooth" });
         }
       };
@@ -633,7 +633,7 @@ export default function Diagnosis() {
                     </FormControl>
                 </li>
             </ul>
-            <Button ref={q17Ref} variant="contained" onClick={handleSubmit} sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff" }}>
+            <Button variant="contained" onClick={handleSubmit} sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff" }}>
                 結果を見る→
             </Button>
         </div>
