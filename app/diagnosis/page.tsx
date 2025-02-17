@@ -66,6 +66,10 @@ export default function Diagnosis() {
     const q17Ref = useRef<HTMLButtonElement>(null);
 
     const handleQ1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if ( !e.target.value) {
+        alert("全ての質問に回答してください。");
+        return;
+      }
         setAnswer1(Number(e.target.value));
         setAnswered1(true);
         if (q2Ref.current) {
@@ -228,37 +232,16 @@ export default function Diagnosis() {
   
     const router = useRouter()
 
-    const group1 = (answer1 ?? 0) + (answer2 ?? 0) + (answer3 ?? 0) + (answer4 ?? 0);
-    const group2 = (answer5 ?? 0) + (answer6 ?? 0) + (answer7 ?? 0) + (answer8 ?? 0);
-    const group3 = (answer9 ?? 0) + (answer10 ?? 0) + (answer11 ?? 0) + (answer12 ?? 0);
-    const group4 = (answer13 ?? 0) + (answer14 ?? 0) + (answer15 ?? 0) + (answer16 ?? 0);
-    
+    const groups = [
+      (answer1 ?? 0) + (answer2 ?? 0) + (answer3 ?? 0) + (answer4 ?? 0),
+      (answer5 ?? 0) + (answer6 ?? 0) + (answer7 ?? 0) + (answer8 ?? 0),
+      (answer9 ?? 0) + (answer10 ?? 0) + (answer11 ?? 0) + (answer12 ?? 0),
+      (answer13 ?? 0) + (answer14 ?? 0) + (answer15 ?? 0) + (answer16 ?? 0)
+    ];
 
-    let highestGroup = 1
-    let highestScore = group1
-    if (group2 > highestScore) {
-        highestGroup =2
-        highestScore = group2
-    }
-    if (group3 > highestScore) {
-        highestGroup =3
-        highestScore = group3
-    }
-    if (group4 > highestScore) {
-        highestGroup = 4
-        highestScore = group4
-    }
-
-    let pattern = "";
-    if (highestGroup === 1) {
-        pattern = "A"
-    } else if (highestGroup === 2) {
-        pattern = "B"
-    } else if (highestGroup === 3) {
-        pattern = "C"
-    } else if (highestGroup === 4) {
-        pattern = "D"
-    }
+    const highestScore = Math.max(...groups);
+    const highestGroup = groups.indexOf(highestScore);
+    const pattern = ["A", "B", "C", "D"][highestGroup];
 
     const handleSubmit = async () => {
         const answersArray = [

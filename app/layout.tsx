@@ -19,13 +19,13 @@ export default function RootLayout({
       <body
         style={{display: "flex", minHeight: "100vh", flexDirection: "column", background: "linear-gradient(to bottom, #f0f8ff 0%, #f0f8ff 25%, #ffffff 100%)"}}
       >
-      <AuthProvider>
+      {/* <AuthProvider> */}
       <Header />
       <main style={{ flex: 1, marginTop: "60px" }}>
         {children}
       </main>
       <Footer />
-      </AuthProvider>
+      {/* </AuthProvider> */}
       </body>
     </html>
   );
