@@ -10,3 +10,4 @@
 //   // 削除が終わったら、ログインページ（例：/login）に自動で送ります
 //   return NextResponse.redirect(new URL('/login?loggedout=true', request.url));
 // }
+export {};

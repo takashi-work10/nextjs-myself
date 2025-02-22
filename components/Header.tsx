@@ -1,56 +1,3 @@
-// "use client";
-
-// import Link from "next/link";
-// import { useAuth } from "../app/context/AuthContext"; // Context のパスはプロジェクトに合わせて調整してください
-
-// export default function Header() {
-//   const { loggedIn } = useAuth();
-
-//   // クリック時にログイン状態をチェックして、未ログインならアラートを出す関数
-//   const handleProtectedClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-//     if (!loggedIn) {
-//       e.preventDefault(); // リンク先へ遷移する動作を止める
-//       alert("先にログインしてください");
-//     }
-//   };
-
-//   return (
-//     <header
-//       style={{
-//         position: "fixed",
-//         top: 0,
-//         left: 0,
-//         width: "100%",
-//         padding: "10px 20px",
-//         backgroundColor: "#eee",
-//         zIndex: 1000,
-//       }}
-//     >
-//       <nav
-//         style={{
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//         }}
-//       >
-//         {/* 左側：ホームリンク */}
-//         <div>
-//           <Link href="/" onClick={handleProtectedClick}>ホーム</Link>
-//         </div>
-//         {/* 右側：お問い合わせとログイン／ログアウトリンク */}
-//         <div>
-//           <Link href="/contact" onClick={handleProtectedClick}>お問い合わせ</Link>
-//           {" | "}
-//           {loggedIn ? (
-//             <Link href="/api/logout">ログアウト</Link>
-//           ) : (
-//             <Link href="/login">ログイン</Link>
-//           )}
-//         </div>
-//       </nav>
-//     </header>
-//   );
-// }
 "use client";
 
 import Link from "next/link";
@@ -63,8 +10,11 @@ export default function Header() {
         top: 0,
         left: 0,
         width: "100%",
-        padding: "10px 20px",
-        backgroundColor: "#eee",
+        padding: "15px 20px",
+        background: "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
+        borderBottomLeftRadius: "20px",
+        borderBottomRightRadius: "20px",
+        boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
         zIndex: 1000,
       }}
     >
@@ -77,13 +27,43 @@ export default function Header() {
       >
         {/* 左側：ホームリンク */}
         <div>
-          <Link href="/">ホーム</Link>
+          <Link
+            href="/"
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              textDecoration: "none",
+              fontSize: "1.2rem",
+            }}
+          >
+            ホーム
+          </Link>
         </div>
         {/* 右側：お問い合わせ、ログインリンク */}
         <div>
-          <Link href="/contact">お問い合わせ</Link>
-          {" | "}
-          <Link href="/login">ログイン</Link>
+          <Link
+            href="/contact"
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              textDecoration: "none",
+              marginRight: "10px",
+              fontSize: "1.1rem",
+            }}
+          >
+            お問い合わせ
+          </Link>
+          <Link
+            href="/login"
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              textDecoration: "none",
+              fontSize: "1.1rem",
+            }}
+          >
+            ログイン
+          </Link>
         </div>
       </nav>
     </header>

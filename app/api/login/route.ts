@@ -26,3 +26,4 @@
 //     return NextResponse.json({ error: "ユーザー名またはパスワードが違います" }, { status: 401 });
 //   }
 // }
+export {};

@@ -1,24 +1,76 @@
 "use client";
 
-import Link from "next/link";
+import React from "react";
+import Button from "@mui/material/Button";
+import { FaTwitter, FaFacebookF } from "react-icons/fa";
 
-export default function Footer() {
+const Footer: React.FC = () => {
+  // 今のページのURLを取得（ブラウザで実行される場合のみ）
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareUrl = encodeURIComponent(currentUrl);
+  const shareText = encodeURIComponent("このページを見てね！");
+
+  // SNSにシェアするためのリンクを作って新しいタブで開く関数
+  const share = (platform: "twitter" | "facebook") => {
+    let url = "";
+    if (platform === "twitter") {
+      url = `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`;
+    } else if (platform === "facebook") {
+      url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+    }
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <footer
       style={{
-        padding: "10px",           // 余白（内側の隙間）を作ります
-        backgroundColor: "#eee",   // 背景色を薄いグレーにします
-        textAlign: "center",       // 中央揃えにします
-        marginTop: "20px",         // 上側に少し空きを作ります（ページとの間隔）
+        padding: "30px",
+        textAlign: "center",
+        background: "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
+        borderTopLeftRadius: "20px",
+        borderTopRightRadius: "20px",
       }}
     >
-      <p>© 2025 My Next.js App</p>
-      <nav>
-        {/* フッターにもリンクを追加できます */}
-        <Link href="/">ホーム</Link>
-        {" | "}
-        <Link href="/contact">お問い合わせ</Link>
-      </nav>
+      <p
+        style={{
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          color: "#fff",
+          marginBottom: "20px",
+        }}
+      >
+        このページをシェアしてね！
+      </p>
+      <Button
+        variant="contained"
+        onClick={() => share("twitter")}
+        style={{
+          margin: "10px",
+          borderRadius: "20px",
+          backgroundColor: "#1DA1F2",
+          color: "#fff",
+          fontWeight: "bold",
+        }}
+        startIcon={<FaTwitter />}
+      >
+        X
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => share("facebook")}
+        style={{
+          margin: "10px",
+          borderRadius: "20px",
+          backgroundColor: "#3b5998",
+          color: "#fff",
+          fontWeight: "bold",
+        }}
+        startIcon={<FaFacebookF />}
+      >
+        Facebook
+      </Button>
     </footer>
   );
-}
+};
+
+export default Footer;
