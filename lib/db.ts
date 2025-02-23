@@ -17,9 +17,10 @@ export async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    const uri = process.env.NODE_ENV === "production"
-    ? process.env.MONGODB_URI_PROD
-    : process.env.MONGODB_URI_DEV;
+    // const uri = process.env.NODE_ENV === "production"
+    // ? process.env.MONGODB_URI_PROD
+    // : process.env.MONGODB_URI_DEV;
+    const uri = process.env.MONGODB_URI;
     if (!uri) {
       throw new Error("MONGODB_URI is not defined");
     }
