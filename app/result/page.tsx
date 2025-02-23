@@ -14,7 +14,7 @@ interface PatternDetail {
   intro: string;
   title: string;
   description: string[];
-  recommended: string[];
+  recommended:  (string | React.ReactNode)[];
 }
 
 // パターンごとの詳細オブジェクト
@@ -28,9 +28,18 @@ const patternDetails: Record<string, PatternDetail> = {
       "ゲームの中の英語が読めたらもっと勝てるかも！と好奇心旺盛。"
     ],
     recommended: [
-      "英語設定でゲームプレイ！操作画面やセリフを英語モードにして遊ぶと、自然と単語に触れられる。",
-      "お気に入りの映画やアニメを英語音声＆英語字幕で観る。登場人物のセリフをマネして発音してみるのも楽しい！",
-      "わからない表現はすぐに調べるクセをつける。ゲーム中に『この単語なんだろう？』と思ったらパパッと調べる→またゲームに戻る→実際に使われているのを確認する、の流れで覚えやすい。"
+      "スイッチの英語設定でゲームプレイ！操作画面やセリフを英語モードにして、英語を話しながら遊ぶと伸びていく。",
+      "例えば、スプラトゥーン、フォートナイトを使って英語でゲームをしてみよう！",
+      <>
+      自分に最適な勉強法、1週間のスケジュールを詳しく知りたい人はログインしたら、より詳細が見れます →
+      <Link
+        href="/login"
+        style={{ color: "#FF6F91", textDecoration: "underline" }}
+      >
+        ログインする
+      </Link>
+    </>
+  
     ]
   },
   B: {
@@ -43,6 +52,15 @@ const patternDetails: Record<string, PatternDetail> = {
     recommended: [
       "英検過去問や問題集をフル活用し、計画的に学習時間を確保。",
       "覚えた単語や熟語を数値化して進捗を見える化するとモチベーションが続きやすい。",
+      <>
+      自分に最適な勉強法、1週間のスケジュールを詳しく知りたい人はログインしたら、より詳細が見れます →
+      <Link
+        href="/login"
+        style={{ color: "#FF6F91", textDecoration: "underline" }}
+      >
+        ログインする
+      </Link>
+    </>
     ]
   },
   C: {
@@ -55,6 +73,7 @@ const patternDetails: Record<string, PatternDetail> = {
     recommended: [
       "グループレッスンやオンライン英会話で、ロールプレイや英語ゲームに挑戦。",
       "友だち同士で簡単な英語チャットを試みたり、英語しりとりなどで語彙を増やす。",
+      "自分に最適な勉強法、1週間のスケジュールを詳しく知りたい人はログインしたら、より詳細が見れます→",
     ]
   },
   D: {
@@ -67,6 +86,15 @@ const patternDetails: Record<string, PatternDetail> = {
     recommended: [
       "英語絵本の読み聞かせやタブレット学習など、家で取り組みやすい教材を活用。",
       "保護者と一緒に学習計画を立てるとスムーズ。",
+      <>
+      自分に最適な勉強法、1週間のスケジュールを詳しく知りたい人はログインしたら、より詳細が見れます →
+      <Link
+        href="/login"
+        style={{ color: "#FF6F91", textDecoration: "underline" }}
+      >
+        ログインする
+      </Link>
+    </>
     ]
   }
 };
