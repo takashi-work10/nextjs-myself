@@ -29,8 +29,8 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h1>お問い合わせ</h1>
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px", height: "100%" }}>
+      <h1 style={{marginTop: "50px"}}>お問い合わせ</h1>
       <form onSubmit={handleSubmit}>
         {/* お名前の入力欄 */}
         <div style={{ marginBottom: "10px" }}>

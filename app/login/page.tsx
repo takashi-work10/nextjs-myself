@@ -1,79 +1,77 @@
-// "use client";
-
-// import { useState } from "react";
-// import { useRouter } from "next/navigation";
-// // AuthContextからsetLoggedInを使えるようにimportします（パスはプロジェクトの構造に合わせて調整）
-// import { useAuth } from "../context/AuthContext"; 
-// import Button from '@mui/material/Button';
-
-// export default function LoginPage() {
-//   const router = useRouter();
-//   // Contextからログイン状態を更新する関数を取り出す
-//   const { setLoggedIn } = useAuth();
-
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     const res = await fetch("/api/login", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ username, password }),
-//     });
-//     const data = await res.json();
-//     if (res.ok) {
-//       // ログイン成功時にContextの状態を更新します
-//       setLoggedIn(true);
-//       router.push("/");
-//     } else {
-//       setError(data.error || "ログインに失敗しました");
-//     }
-//   };
-
-//   return (
-//     <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
-//       <form onSubmit={handleSubmit}>
-//         <div style={{ marginBottom: "10px" }}>
-//           <label>
-//             ユーザー名
-//             <input 
-//               type="text"
-//               value={username}
-//               onChange={(e) => setUsername(e.target.value)}
-//               style={{ width: "100%", border: "1px solid #ccc" }}
-//               required
-//             />
-//           </label>
-//         </div>
-//         <div style={{ marginBottom: "10px" }}>
-//           <label>
-//             パスワード
-//             <input
-//               type="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               style={{ width: "100%", border: "1px solid #ccc" }}
-//               required
-//             />
-//           </label>
-//         </div>
-//         {error && <p style={{ color: "red" }}>{error}</p>}
-//         <Button type="submit" variant="contained">ログイン</Button>
-//       </form>
-//     </div>
-//   );
-// }
-
 "use client";
 
-export default function LoginPage() {
+import { useState } from "react";
+import { Modal, Box, Typography, Button, Backdrop, Fade } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
+import { signIn } from "next-auth/react";
+
+export default function LoginModal() {
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
-      <h1>Login Page</h1>
-      <p>ログインフォーム</p>
+      {/* ログインボタンを画面上に配置（ここは任意の位置に配置してください） */}
+      <Button variant="outlined" onClick={handleOpen}>
+        ログイン
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              borderRadius: "16px",
+              boxShadow: 24,
+              p: 4,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
+              ログイン
+            </Typography>
+            <Typography sx={{ mb: 4 }}>
+              Googleアカウントでログインしてください
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<GoogleIcon />}
+              onClick={() => signIn("google")}
+              sx={{
+                backgroundColor: "#4285F4",
+                color: "#fff",
+                px: 4,
+                py: 1.5,
+                fontSize: "16px",
+                fontWeight: "bold",
+                borderRadius: "8px",
+                textTransform: "none",
+                transition: "background-color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#357ae8",
+                },
+              }}
+            >
+              Googleでログイン
+            </Button>
+          </Box>
+        </Fade>
+      </Modal>
     </div>
   );
 }
-

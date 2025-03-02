@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
+// app/layout.tsx
+import { Metadata } from "next";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
+import SessionProviderWrapper from "../app/components/SessionProviderWrapper";
+import type { Session } from "next-auth";
 
 export const metadata: Metadata = {
   title: "英検学習タイプ診断",
@@ -11,21 +12,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  session,
+}: {
   children: React.ReactNode;
-}>) {
+  session: Session | null;
+}) {
   return (
-    <html lang="ja">
-      <body
-        style={{display: "flex", minHeight: "100vh", flexDirection: "column", background: "linear-gradient(to bottom, #f0f8ff 0%, #f0f8ff 25%, #ffffff 100%)"}}
-      >
-      <Header />
-      <main style={{ flex: 1, marginTop: "60px" }}>
-        {children}
-      </main>
-      <Footer />
+    <html>
+      <body>
+        <SessionProviderWrapper session={session}>
+          <Header />
+          {children}
+        </SessionProviderWrapper>
+        <Footer />
       </body>
     </html>
   );
 }
-
