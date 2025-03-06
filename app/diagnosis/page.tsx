@@ -1,38 +1,55 @@
 "use client";
 
-import React, { useState }  from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Box, Button } from "@mui/material";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import QuestionItem from "../components/QuestionItem";
 import { questions } from "../constants/questions";
 import { useDiagnosis } from "../hooks/useDiagnosis";
+import { useMutation } from "@tanstack/react-query";
+
+// 送信するデータの型定義
+type DiagnosisPayload = {
+  pattern: string;
+  answers: (number | null)[];
+};
 
 export default function Diagnosis() {
-    const router = useRouter()
-    const { answers, questionRefs, handleChange, pattern } = useDiagnosis(16);
-    const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { answers, questionRefs, handleChange, pattern } = useDiagnosis(16);
 
-    const handleSubmit = async (): Promise<void> => {
-      if (answers.some((answer) => answer === null)) {
-        alert("すべての質問に回答してください");
-        return;
-      }
-      setIsLoading(true);
-      const payload = { pattern, answers };
-      try {
-        await axios.post("/api/saveDiagnosis", payload, {
-          headers: { "Content-Type": "application/json" },
-        });
-        router.push("/result");
-      } catch (error) {
-        console.error("送信エラー:", error);
-        setIsLoading(false);
-      }
-    };
+  // React QueryのuseMutationをオブジェクト形式で定義（v4以降のAPI）
+  const mutation = useMutation<
+    AxiosResponse<any, any>, // TData: axiosの返り値
+    Error,                  // TError
+    DiagnosisPayload        // TVariables: 送信するpayloadの型
+  >({
+    mutationFn: (payload: DiagnosisPayload) =>
+      axios.post("/api/saveDiagnosis", payload, {
+        headers: { "Content-Type": "application/json" },
+      }),
+    onSuccess: () => {
+      router.push("/result");
+    },
+    onError: (error) => {
+      console.error("送信エラー:", error);
+    },
+  });
 
-    return(
-      <Box  style={{
+  // 送信処理
+  const handleSubmit = (): void => {
+    if (answers.some((answer) => answer === null)) {
+      alert("すべての質問に回答してください");
+      return;
+    }
+    const payload: DiagnosisPayload = { pattern, answers };
+    mutation.mutate(payload);
+  };
+
+  return (
+    <Box
+      style={{
         textAlign: "center",
         background: "linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)",
         minHeight: "100vh",
@@ -41,36 +58,44 @@ export default function Diagnosis() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-      }}>
-        <Box sx={{
+      }}
+    >
+      <Box
+        sx={{
           background: "#fff",
           borderRadius: "20px",
           boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
           margin: "auto",
           maxWidth: { xs: "80%", sm: "80%", md: "80%" },
           padding: { xs: "20px", sm: "30px", md: "40px" },
-        }}>
-          <Box component="ul" sx={{listStyle: "none", margin: 0, padding: 0, textAlign: "left"}}>
-            {questions.map((question, i) =>
-                <QuestionItem
-                key={i}
-                question={question}
-                index={i}
-                answer={answers[i]}
-                onAnswerChange={handleChange}
-                forwardRef={(el) => {
-                  questionRefs.current[i] = el;
+        }}
+      >
+        <Box component="ul" sx={{ listStyle: "none", margin: 0, padding: 0, textAlign: "left" }}>
+          {questions.map((question, i) => (
+            <QuestionItem
+              key={i}
+              question={question}
+              index={i}
+              answer={answers[i]}
+              onAnswerChange={handleChange}
+              forwardRef={(el) => {
+                questionRefs.current[i] = el;
               }}
-                style={{margin: "0 auto", textAlign: "center"}}
-              />
-            )}
-          </Box>
-          <Box sx={{margin: "30px 0" }}>
-            <Button variant="contained" onClick={handleSubmit} disabled={isLoading} sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff"}}>
-              {isLoading ? "送信中..." : "結果を見る→"}
-            </Button>
-          </Box>
+              style={{ margin: "0 auto", textAlign: "center" }}
+            />
+          ))}
         </Box>
-      </Box>  
-    )
+        <Box sx={{ margin: "30px 0" }}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            disabled={mutation.status === "pending"}
+            sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff" }}
+          >
+            {mutation.status === "pending" ? "送信中..." : "結果を見る→"}
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
 }
