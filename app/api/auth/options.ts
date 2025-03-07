@@ -18,13 +18,16 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
       }
       return session;
+    },
+    async redirect({ baseUrl }) {
+      // ログイン完了後は必ず /result/detailed へリダイレクトする
+      return `${baseUrl}/result/detailed`;
     },
   },
 };
