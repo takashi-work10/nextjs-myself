@@ -15,15 +15,21 @@ type DiagnosisPayload = {
   answers: (number | null)[];
 };
 
+// APIから返ってくる診断結果の型定義
+type DiagnosisResult = {
+  pattern: string;
+  answers: number[];
+};
+
 export default function Diagnosis() {
   const router = useRouter();
   const { answers, questionRefs, handleChange, pattern } = useDiagnosis(16);
 
-  // React QueryのuseMutationをオブジェクト形式で定義（v4以降のAPI）
+  // React QueryのuseMutationを具体的な返り値の型に変更
   const mutation = useMutation<
-    AxiosResponse<any, any>, // TData: axiosの返り値
-    Error,                  // TError
-    DiagnosisPayload        // TVariables: 送信するpayloadの型
+    AxiosResponse<DiagnosisResult>, // TData: 具体的な診断結果の型
+    Error,                          // TError
+    DiagnosisPayload                // TVariables: 送信するpayloadの型
   >({
     mutationFn: (payload: DiagnosisPayload) =>
       axios.post("/api/saveDiagnosis", payload, {
