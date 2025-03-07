@@ -1,10 +1,9 @@
-// app/result/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { patternDetails } from "../constants/patternDetails";
 
 type DiagnosisResult = {
@@ -13,27 +12,38 @@ type DiagnosisResult = {
 };
 
 export default function ResultPage() {
-  const [result, setResult] = useState<DiagnosisResult | null>(null);
+  // useQueryを使って/api/saveDiagnosisから診断結果を取得
+  const { data: result, isLoading, error } = useQuery<DiagnosisResult>({
+    queryKey: ["diagnosisResult"],
+    queryFn: async () => {
+      const res = await axios.get("/api/saveDiagnosis");
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    async function fetchResult() {
-      try {
-        const res = await axios.get("/api/saveDiagnosis");
-        setResult(res.data);
-      } catch (error) {
-        console.error("結果の取得に失敗しました:", error);
-      }
-    }
-    fetchResult();
-  }, []);
+  if (isLoading) {
+    return (
+      <Box sx={{ padding: "20px", textAlign: "center" }}>
+        結果を読み込み中…
+      </Box>
+    );
+  }
 
-  if (!result) {
-    return <Box sx={{ padding: "20px", textAlign: "center" }}>結果を読み込み中…</Box>;
+  if (error || !result) {
+    return (
+      <Box sx={{ padding: "20px", textAlign: "center" }}>
+        結果の取得に失敗しました
+      </Box>
+    );
   }
 
   const currentPattern = patternDetails[result.pattern];
   if (!currentPattern) {
-    return <Box sx={{ padding: "20px", textAlign: "center" }}>診断パターンが見つかりませんでした。</Box>;
+    return (
+      <Box sx={{ padding: "20px", textAlign: "center" }}>
+        診断パターンが見つかりませんでした。
+      </Box>
+    );
   }
 
   return (
@@ -54,6 +64,7 @@ export default function ResultPage() {
           margin: "auto",
           maxWidth: "600px",
           padding: "30px",
+          mt: "60px"
         }}
       >
         <Typography variant="h4" sx={{ color: "#FF6F91", mb: 2 }}>

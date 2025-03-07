@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SessionProviderWrapper from "../app/components/SessionProviderWrapper";
 import type { Session } from "next-auth";
+import ClientProviders from "./ClientProviders"; // 追加
 
 export const metadata: Metadata = {
   title: "英検学習タイプ診断",
@@ -21,8 +22,10 @@ export default function RootLayout({
     <html>
       <body>
         <SessionProviderWrapper session={session}>
-          <Header />
-          {children}
+          <ClientProviders>
+            <Header />
+            {children}
+          </ClientProviders>
         </SessionProviderWrapper>
         <Footer />
       </body>

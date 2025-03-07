@@ -17,7 +17,7 @@ export default function LoginPage() {
         <Button
           variant="contained"
           startIcon={<GoogleIcon />}
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google", { callbackUrl: "/result/detailed" })}
           sx={{
             backgroundColor: "#4285F4",
             color: "#fff",

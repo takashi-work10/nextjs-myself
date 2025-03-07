@@ -64,9 +64,67 @@ export default async function DetailedResultPage() {
       <Typography variant="body1" sx={{ textAlign: "center", mb: 3 }}>
         {currentPattern.intro}
       </Typography>
-      {/* 詳細な診断結果のセクション */}
+      
       <Box sx={{ maxWidth: "600px", mx: "auto", mb: 3 }}>
-        {/* 各セクションのコードを追加 */}
+        {/* 説明 */}
+        {currentPattern.description.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">説明</Typography>
+            {currentPattern.description.map((desc, index) => (
+              <Typography key={index} variant="body2" sx={{ mb: 1 }}>
+                {desc}
+              </Typography>
+            ))}
+          </Box>
+        )}
+        
+        {/* 強み */}
+        {currentPattern.strengths.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">強み</Typography>
+            {currentPattern.strengths.map((strength, index) => (
+              <Typography key={index} variant="body2" sx={{ mb: 1 }}>
+                {strength}
+              </Typography>
+            ))}
+          </Box>
+        )}
+        
+        {/* 弱み */}
+        {currentPattern.weaknesses.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">弱み</Typography>
+            {currentPattern.weaknesses.map((weakness, index) => (
+              <Typography key={index} variant="body2" sx={{ mb: 1 }}>
+                {weakness}
+              </Typography>
+            ))}
+          </Box>
+        )}
+        
+        {/* おすすめ */}
+        {currentPattern.recommended.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">おすすめ</Typography>
+            {currentPattern.recommended.map((rec, index) => (
+              <Typography key={index} variant="body2" sx={{ mb: 1 }}>
+                {rec}
+              </Typography>
+            ))}
+          </Box>
+        )}
+        
+        {/* 次のステップ */}
+        {currentPattern.nextSteps.length > 0 && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">次のステップ</Typography>
+            {currentPattern.nextSteps.map((step, index) => (
+              <Typography key={index} variant="body2" sx={{ mb: 1 }}>
+                {step}
+              </Typography>
+            ))}
+          </Box>
+        )}
       </Box>
     </Box>
   );
