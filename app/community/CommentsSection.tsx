@@ -1,54 +1,69 @@
-// app/community/CommentsSection.tsx
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import CommentItem, { CommentType } from "./CommentItem";
 import { useSession } from "next-auth/react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function CommentsSection({ postId }: { postId: string }) {
   const { data: session } = useSession();
-  const [comments, setComments] = useState<CommentType[]>([]);
   const [newComment, setNewComment] = useState("");
+  const queryClient = useQueryClient();
 
-  const fetchComments = useCallback(async () => {
-    try {
+  // コメント取得用の useQuery
+  const {
+    data: comments = [],
+    isLoading,
+    isError,
+  } = useQuery<CommentType[]>({
+    queryKey: ["comments", postId],
+    queryFn: async () => {
       const res = await axios.get(`/api/comments?postId=${postId}`);
-      setComments(res.data);
-    } catch (error) {
-      console.error("コメント取得エラー:", error);
-    }
-  }, [postId]);
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
+  // コメント投稿用の useMutation
+  const addCommentMutation = useMutation({
+    mutationFn: async (commentData: { postId: string; content: string; user: string }) => {
+      return axios.post("/api/comments", commentData);
+    },
+    onSuccess: () => {
+      // 投稿後、キャッシュを無効化してコメント一覧を再取得
+      queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+      setNewComment("");
+    },
+  });
 
-  const handleCommentSubmit = async () => {
+  const handleCommentSubmit = () => {
     if (newComment.trim() === "") return;
     if (!session?.user) {
       alert("ログインしてください");
       return;
     }
-    try {
-      await axios.post("/api/comments", {
-        postId,
-        content: newComment,
-        user: session.user.id,
-      });
-      setNewComment("");
-      fetchComments();
-    } catch (error) {
-      console.error("コメント投稿エラー:", error);
-    }
+    addCommentMutation.mutate({
+      postId,
+      content: newComment,
+      user: session.user.id,
+    });
   };
+
+  if (isLoading) return <div>コメント読み込み中...</div>;
+  if (isError) return <div>コメントの読み込みに失敗しました。</div>;
 
   return (
     <Box sx={{ mt: 2 }}>
       <Typography variant="h6">コメント</Typography>
       {comments.map((comment) => (
-        <CommentItem key={comment._id} comment={comment} onAction={fetchComments} />
+        <CommentItem
+          key={comment._id}
+          comment={comment}
+          onAction={() =>
+            queryClient.invalidateQueries({ queryKey: ["comments", postId] })
+          }
+        />
       ))}
       <TextField
         label="新しいコメント"

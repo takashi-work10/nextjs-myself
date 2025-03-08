@@ -1,8 +1,8 @@
-// app/community/CommentItem.tsx
 "use client";
 
 import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type CommentType = {
   _id: string;
@@ -18,13 +18,20 @@ type CommentItemProps = {
 };
 
 export default function CommentItem({ comment, onAction }: CommentItemProps) {
-  const handleDelete = async () => {
-    try {
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
       await axios.delete(`/api/comments/${comment._id}`);
+    },
+    onSuccess: () => {
+      // コメント削除後、親コンポーネント側でキャッシュの再取得などの処理を行う
       onAction();
-    } catch (error) {
-      console.error("コメント削除エラー:", error);
-    }
+    },
+  });
+
+  const handleDelete = () => {
+    deleteMutation.mutate();
   };
 
   return (
