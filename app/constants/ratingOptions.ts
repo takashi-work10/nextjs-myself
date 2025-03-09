@@ -1,3 +1,5 @@
+// app/constants/ratingOptions.ts ラジオボタンがまとめられている
+
 export type RatingOption = {
     value: string;
     size: number;
@@ -14,3 +16,5 @@ export type RatingOption = {
     { value: "7", size: 70, color: "#d18dff" },
   ];
   
+
+

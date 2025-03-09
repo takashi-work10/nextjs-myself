@@ -72,7 +72,7 @@ export default function Diagnosis() {
           borderRadius: "20px",
           boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
           margin: "auto",
-          maxWidth: { xs: "80%", sm: "80%", md: "80%" },
+          maxWidth: { xs: "100%", sm: "80%", md: "70%" },
           padding: { xs: "20px", sm: "30px", md: "40px" },
         }}
       >
@@ -91,7 +91,7 @@ export default function Diagnosis() {
             />
           ))}
         </Box>
-        <Box sx={{ margin: "30px 0" }}>
+        <Box sx={{ margin: "30px 0", textAlign: "center" }}>
           <Button
             variant="contained"
             onClick={handleSubmit}
