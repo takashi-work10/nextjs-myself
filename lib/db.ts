@@ -1,3 +1,5 @@
+// app/lib/db.ts
+
 import mongoose from "mongoose";
 
 type MongooseCache = {

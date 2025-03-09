@@ -1,3 +1,5 @@
+// app/api/save-diagnosis.route.ts
+
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "../../../lib/db";
 import DiagnosisResult from "../../../models/DiagnosisResult";
