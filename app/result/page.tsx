@@ -12,11 +12,11 @@ type DiagnosisResult = {
 };
 
 export default function ResultPage() {
-  // useQueryを使って/api/saveDiagnosisから診断結果を取得
+  // useQueryを使って/api/save-diagnosisから診断結果を取得
   const { data: result, isLoading, error } = useQuery<DiagnosisResult>({
     queryKey: ["diagnosisResult"],
     queryFn: async () => {
-      const res = await axios.get("/api/saveDiagnosis");
+      const res = await axios.get("/api/save-diagnosis");
       return res.data;
     },
   });

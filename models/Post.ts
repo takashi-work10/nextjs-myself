@@ -16,7 +16,6 @@ const PostSchema: Schema<PostDocument> = new Schema({
   user: { type: String, required: true },
   nickname: { type: String, required: true },
   content: { type: String, required: true },
-  category: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   likes: { type: Number, default: 0 },
   likedBy: { type: [String], default: [] },

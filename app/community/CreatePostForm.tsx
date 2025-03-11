@@ -1,4 +1,4 @@
-// CreatePostForm.tsx
+// app/community/CreatePostForm.tsx
 import React, { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { PostType } from "./PostItem";

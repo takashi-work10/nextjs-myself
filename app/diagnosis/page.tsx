@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Box, Button } from "@mui/material";
+import { Container, Box, Button } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
 import QuestionItem from "../components/QuestionItem";
 import { questions } from "../constants/questions";
@@ -32,7 +32,7 @@ export default function Diagnosis() {
     DiagnosisPayload                // TVariables: 送信するpayloadの型
   >({
     mutationFn: (payload: DiagnosisPayload) =>
-      axios.post("/api/saveDiagnosis", payload, {
+      axios.post("/api/save-diagnosis", payload, {
         headers: { "Content-Type": "application/json" },
       }),
     onSuccess: () => {
@@ -54,7 +54,7 @@ export default function Diagnosis() {
   };
 
   return (
-    <Box
+    <Container
       style={{
         textAlign: "center",
         background: "linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)",
@@ -102,6 +102,6 @@ export default function Diagnosis() {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Container>
   );
 }

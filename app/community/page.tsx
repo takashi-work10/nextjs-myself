@@ -29,6 +29,11 @@ export default function CommunityPage() {
       // 成功時に投稿一覧を再取得
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
+    onError: (error: any) => {
+      // エラー時の処理：エラーメッセージをコンソールに出力
+      console.error("投稿作成エラー:", error);
+      alert("投稿の作成に失敗しました。再度お試しください。");
+    },
   });
 
   // handleCreatePost は投稿データを引数にとる関数です
@@ -37,12 +42,12 @@ export default function CommunityPage() {
     setShowForm(false);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching posts.</div>;
+  if (isLoading) return <Box>Loading...</Box>;
+  if (isError) return <Box>Error fetching posts.</Box>;
 
   return (
     <Container>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant="h4" align="center" gutterBottom sx={{ mt: "90px"}}>
         コミュニティ
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>

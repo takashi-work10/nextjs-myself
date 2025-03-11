@@ -1,3 +1,5 @@
+// app/community/PostItem.tsx
+
 "use client";
 
 import { Box, Typography, Button } from "@mui/material";

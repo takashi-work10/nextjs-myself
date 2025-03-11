@@ -10,7 +10,7 @@ export async function GET() {
     const posts: PostDocument[] = await Post.find({}).sort({ createdAt: -1 });
     return NextResponse.json(posts);
   } catch (error) {  // あるいは catch { ... }
-    console.error("Error in POST /api/posts:", error);
+    console.error("Error in GET /api/posts:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
@@ -19,9 +19,9 @@ export async function POST(request: Request) {
   try {
     await connectToDatabase();
     const body = await request.json();
-    if (!body.content || !body.user || !body.category) {
+    if (!body.content || !body.user) {
       return NextResponse.json(
-        { error: "Content, user, and category are required" },
+        { error: "Content, user are required" },
         { status: 400 }
       );
     }

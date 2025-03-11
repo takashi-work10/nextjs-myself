@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const { data: fetchedProfile, isLoading, isError } = useQuery({
     queryKey: ["profile", session?.user?.id],
     queryFn: async () => {
-      const response = await axios.get(`/api/getProfile?userId=${session!.user.id}`);
+      const response = await axios.get(`/api/get-profile?userId=${session!.user.id}`);
       return response.data;
     },
     enabled: !!session?.user?.id,
@@ -50,7 +50,7 @@ export default function ProfilePage() {
       if (!userId || !email) {
         throw new Error("ユーザーIDまたはメールアドレスが取得できませんでした");
       }
-      return await axios.post("/api/updateProfile", { userId, email, ...updatedProfile });
+      return await axios.post("/api/update-profile", { userId, email, ...updatedProfile });
     },
     onSuccess: () => {
       alert("プロフィールが更新されました");

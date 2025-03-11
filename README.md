@@ -31,7 +31,7 @@ SNSへのシェア
 │   │   │   └── route.ts
 │   │   ├── generateFeedback
 │   │   │   └── route.ts
-│   │   ├── getProfile
+│   │   ├── get-profile
 │   │   │   └── route.ts
 │   │   ├── login
 │   │   │   └── route.ts
@@ -43,7 +43,7 @@ SNSへのシェア
 │   │   │   │   │   └── route.ts
 │   │   │   │   └── route.ts
 │   │   │   └── route.ts
-│   │   ├── saveDiagnosis
+│   │   ├── save-diagnosis
 │   │   │   └── route.ts
 │   │   └── updateProfile
 │   │       └── route.ts

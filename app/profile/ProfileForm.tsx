@@ -31,7 +31,7 @@ export default function ProfileForm({
       grade: string;
       school: string;
     }) => {
-      return await axios.post("/api/updateProfile", updatedProfile);
+      return await axios.post("/api/update-profile", updatedProfile);
     },
     onSuccess: () => {
       alert("プロフィールが更新されました");
