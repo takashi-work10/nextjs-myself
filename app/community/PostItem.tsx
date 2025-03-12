@@ -35,6 +35,10 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     onSuccess: () => {
       onAction();
     },
+    onError: (error: any) => {
+      console.error("投稿削除エラー:", error);
+      alert("投稿の削除に失敗しました。再度お試しください。");
+    },
   });
 
   // いいね用の Mutation
@@ -48,6 +52,10 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     },
     onSuccess: () => {
       onAction();
+    },
+    onError: (error: any) => {
+      console.error("いいね処理エラー:", error);
+      alert("いいね処理に失敗しました。再度お試しください。");
     },
   });
 

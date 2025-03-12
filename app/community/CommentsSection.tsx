@@ -35,6 +35,10 @@ export default function CommentsSection({ postId }: { postId: string }) {
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });
       setNewComment("");
     },
+    onError: (error: any) => {
+      console.error("コメント投稿エラー:", error);
+      alert("コメントの投稿に失敗しました。再度お試しください。");
+    },
   });
 
   const handleCommentSubmit = () => {

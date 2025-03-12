@@ -2,7 +2,7 @@
 
 import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export type CommentType = {
   _id: string;
@@ -18,7 +18,7 @@ type CommentItemProps = {
 };
 
 export default function CommentItem({ comment, onAction }: CommentItemProps) {
-  const queryClient = useQueryClient();
+
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
@@ -27,6 +27,10 @@ export default function CommentItem({ comment, onAction }: CommentItemProps) {
     onSuccess: () => {
       // コメント削除後、親コンポーネント側でキャッシュの再取得などの処理を行う
       onAction();
+    },
+    onError: (error: any) => {
+      console.error("コメント削除エラー:", error);
+      alert("コメントの削除に失敗しました。再度お試しください。");
     },
   });
 

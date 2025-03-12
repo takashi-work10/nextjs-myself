@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Container, Box, Typography, Button } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import CreatePostForm from "./CreatePostForm";
 import PostItem, { PostType } from "./PostItem";
 
@@ -11,7 +12,10 @@ export default function CommunityPage() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
 
-  // 投稿の取得 (useQuery のオブジェクト形式)
+  // セッションからログインユーザー情報を取得
+  const { data: session } = useSession();
+
+  // 投稿の取得
   const { data: posts = [], isLoading, isError } = useQuery<PostType[]>({
     queryKey: ["posts"],
     queryFn: async () => {
@@ -20,7 +24,7 @@ export default function CommunityPage() {
     },
   });
 
-  // 投稿作成用の Mutation (オブジェクト形式)
+  // 投稿作成用の Mutation
   const createPostMutation = useMutation({
     mutationFn: async (newPost: Partial<PostType>): Promise<AxiosResponse<any>> => {
       return axios.post("/api/posts", newPost);
@@ -30,15 +34,20 @@ export default function CommunityPage() {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (error: any) => {
-      // エラー時の処理：エラーメッセージをコンソールに出力
       console.error("投稿作成エラー:", error);
       alert("投稿の作成に失敗しました。再度お試しください。");
     },
   });
 
-  // handleCreatePost は投稿データを引数にとる関数です
+  // handleCreatePost: 子コンポーネントから投稿データを受け取り、ユーザー情報を追加してAPIに送信
   const handleCreatePost = async (postData: Partial<PostType>) => {
-    await createPostMutation.mutateAsync(postData);
+    const userId = session?.user?.id;
+    if (!userId) {
+      alert("ログインしてください");
+      return;
+    }
+    const payload = { ...postData, user: userId };
+    await createPostMutation.mutateAsync(payload);
     setShowForm(false);
   };
 
@@ -47,14 +56,25 @@ export default function CommunityPage() {
 
   return (
     <Container>
-      <Typography variant="h4" align="center" gutterBottom sx={{ mt: "90px"}}>
+      <Typography variant="h4" align="center" gutterBottom sx={{ mt: "90px" }}>
         コミュニティ
       </Typography>
       <Typography variant="body1" align="center" gutterBottom>
         みんなの投稿やコメントが見られます。
       </Typography>
       <Box sx={{ textAlign: "center", mb: 2 }}>
-        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
+        <Button 
+          variant="contained"
+          onClick={() => {
+            // ログインしていない場合はフォームを開かずにログインを促す
+            if (!session) {
+              alert("投稿するにはログインが必要です。");
+              // 必要に応じてログインページへリダイレクトするなどの処理も可能です
+            } else {
+              setShowForm(!showForm);
+            }
+          }}
+        >
           {showForm ? "閉じる" : "投稿する"}
         </Button>
       </Box>
@@ -64,9 +84,7 @@ export default function CommunityPage() {
           <PostItem
             key={post._id}
             post={post}
-            onAction={() =>
-              queryClient.invalidateQueries({ queryKey: ["posts"] })
-            }
+            onAction={() => queryClient.invalidateQueries({ queryKey: ["posts"] })}
           />
         ))}
       </Box>

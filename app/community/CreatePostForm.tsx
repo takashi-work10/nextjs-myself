@@ -1,4 +1,4 @@
-// app/community/CreatePostForm.tsx
+// app/community/CreatePostForm.tsx ただ、投稿フォームを作って、それをコールバック関数でpage.tsxに渡してるだけ
 import React, { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { PostType } from "./PostItem";
