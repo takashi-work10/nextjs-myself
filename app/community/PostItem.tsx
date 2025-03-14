@@ -16,6 +16,10 @@ import { useSession } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { io } from "socket.io-client";
+
+// グローバルな socket インスタンスを作成（接続先は通知サーバー）
+const socket = io("http://localhost:3001");
 
 export type PostType = {
   _id: string;
@@ -41,12 +45,10 @@ export default function PostItem({ post, onAction }: PostItemProps) {
   // 編集モードの状態管理
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
-  // 編集用の TextField にフォーカスとカーソル位置を制御するための ref
   const editRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isEditing && editRef.current) {
-      // 文字数を取得してカーソルを末尾に設定
       const length = editContent.length;
       editRef.current.setSelectionRange(length, length);
       editRef.current.focus();
@@ -93,7 +95,7 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     },
   });
 
-  // いいね用 Mutation
+  // いいね用 Mutation（通知送信処理を追加）
   const likeMutation = useMutation({
     mutationFn: async (userId: string) => {
       await axios.patch(
@@ -104,6 +106,16 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     },
     onSuccess: () => {
       onAction();
+      // 自分自身がいいねした場合は通知を送らない
+      if (session?.user?.id && session.user.id !== post.user) {
+        // 投稿内容の抜粋（例：先頭30文字）
+        const excerpt = post.content.slice(0, 30) + (post.content.length > 30 ? "…" : "");
+        socket.emit("sendNotification", {
+          receiverId: post.user, // 受信者は投稿の所有者
+          message: `あなたの投稿「${excerpt}」にいいねがつきました！`,
+          postId: post._id,
+        });
+      }
     },
     onError: (error: any) => {
       console.error("いいね処理エラー:", error);
@@ -142,8 +154,10 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     updateMutation.mutate();
   };
 
-  // 編集済みかどうかの判定（updatedAt が存在し、createdAt と異なる場合）
-  const isEdited = post.updatedAt && post.updatedAt !== post.createdAt;
+  // いいねなどで自動更新された updatedAt の変化は短いと考え、2秒以上の差があれば本当に編集されたとみなす
+  const isEdited =
+    post.updatedAt &&
+    new Date(post.updatedAt).getTime() - new Date(post.createdAt).getTime() > 2000;
 
   return (
     <Box
