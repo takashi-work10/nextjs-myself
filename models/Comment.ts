@@ -7,6 +7,9 @@ type TComment = {
   nickname: string;
   content: string;
   createdAt: Date;
+  updatedAt: Date;
+  likes?: number;
+  likedBy?: string[];
 };
 
 export type CommentDocument = Document & TComment;
@@ -17,8 +20,11 @@ const CommentSchema: Schema<CommentDocument> = new Schema({
   user: { type: String, required: true },
   nickname: { type: String, required: true },
   content: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
+  likes: { type: Number, default: 0 },
+  likedBy: { type: [String], default: [] },
+},
+  { timestamps: true } // createdAt と updatedAt を自動で管理
+);
 
 const Comment: Model<CommentDocument> =
   mongoose.models.Comment || mongoose.model<CommentDocument>("Comment", CommentSchema);

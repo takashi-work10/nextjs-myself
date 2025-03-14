@@ -6,6 +6,7 @@ type TPost = {
   content: string;
   category: string;
   createdAt: Date;
+  updatedAt: Date;
   likes: number;
   likedBy: string[];
 };
@@ -13,13 +14,15 @@ type TPost = {
 type PostDocument = Document & TPost;
 
 const PostSchema: Schema<PostDocument> = new Schema({
+
   user: { type: String, required: true },
   nickname: { type: String, required: true },
   content: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
   likes: { type: Number, default: 0 },
   likedBy: { type: [String], default: [] },
-});
+  },
+  { timestamps: true } // このオプションで createdAt と updatedAt を自動で管理
+  );
 
 const Post: Model<PostDocument> =
   mongoose.models.Post || mongoose.model<PostDocument>("Post", PostSchema);
