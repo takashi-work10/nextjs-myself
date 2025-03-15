@@ -19,13 +19,14 @@ export default function CreatePostForm({ onCreated }: CreatePostFormProps) {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" onSubmit={handleSubmit} sx={{mb: "30px"}}>
       <TextField
         label="投稿内容"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        sx={{width: "60vh"}}
       />
-      <Button type="submit">送信</Button>
+      <Button type="submit" sx={{fontSize: "20px"}}>送信</Button>
     </Box>
   );
 }
