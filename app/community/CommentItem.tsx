@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+// Commentデータの型定義
 export type CommentType = {
   _id: string;
   user: string;
@@ -27,6 +28,7 @@ export type CommentType = {
   likedBy: string[];
 };
 
+// Commentデータの型定義を元にPropsの型定義
 type CommentItemProps = {
   comment: CommentType;
   onAction: () => void;
@@ -38,12 +40,13 @@ export default function CommentItem({ comment, onAction }: CommentItemProps) {
   const alreadyLiked =
     session?.user && (comment.likedBy || []).includes(session.user.id);
 
-  // 編集モードの状態管理
+  // 編集モードの状態管理 編集中と、編集後の内容
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
   // 編集用の TextField にフォーカスとカーソル位置制御するための ref
   const editRef = useRef<HTMLInputElement>(null);
 
+  // 入力フォームの一番後ろからすぐ入力できるようにする
   useEffect(() => {
     if (isEditing && editRef.current) {
       const length = editContent.length;
@@ -52,7 +55,7 @@ export default function CommentItem({ comment, onAction }: CommentItemProps) {
     }
   }, [isEditing, editContent]);
 
-  // 編集・削除メニューの管理
+  // 編集・削除メニューの管理（コメントの右上を押すと出てくるメニューバー）
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

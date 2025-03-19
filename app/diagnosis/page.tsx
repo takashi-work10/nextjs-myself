@@ -9,13 +9,11 @@ import { questions } from "../constants/questions";
 import { useDiagnosis } from "../hooks/useDiagnosis";
 import { useMutation } from "@tanstack/react-query";
 
-// 送信するデータの型定義
 type DiagnosisPayload = {
   pattern: string;
   answers: (number | null)[];
 };
 
-// APIから返ってくる診断結果の型定義
 type DiagnosisResult = {
   pattern: string;
   answers: number[];
