@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SessionProviderWrapper from "../app/components/SessionProviderWrapper";
 import type { Session } from "next-auth";
-import ClientProviders from "./ClientProviders"; // 追加
+import ClientProviders from "./ClientProviders"; 
 
 export const metadata: Metadata = {
   title: "英検学習タイプ診断",

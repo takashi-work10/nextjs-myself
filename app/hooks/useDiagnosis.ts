@@ -2,7 +2,6 @@
 import { useRef, useState } from "react";
 
 /**
- * 診断用の状態管理と計算ロジックをまとめたカスタムフック
  * @param initialQuestionCount 質問数（例: 16）
  * @returns { answers, questionRefs, handleChange, pattern }
  */

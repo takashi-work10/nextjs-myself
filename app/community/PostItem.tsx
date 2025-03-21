@@ -16,10 +16,6 @@ import { useSession } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { io } from "socket.io-client";
-
-// グローバルな socket インスタンスを作成（接続先は通知サーバー）
-const socket = io("http://localhost:3001");
 
 export type PostType = {
   _id: string;
@@ -106,16 +102,6 @@ export default function PostItem({ post, onAction }: PostItemProps) {
     },
     onSuccess: () => {
       onAction();
-      // 自分自身がいいねした場合は通知を送らない
-      if (session?.user?.id && session.user.id !== post.user) {
-        // 投稿内容の抜粋（例：先頭30文字）
-        const excerpt = post.content.slice(0, 30) + (post.content.length > 30 ? "…" : "");
-        socket.emit("sendNotification", {
-          receiverId: post.user, // 受信者は投稿の所有者
-          message: `あなたの投稿「${excerpt}」にいいねがつきました！`,
-          postId: post._id,
-        });
-      }
     },
     onError: (error: any) => {
       console.error("いいね処理エラー:", error);

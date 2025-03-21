@@ -15,8 +15,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationBell from "../components/NotificationBell"; // NotificationBellコンポーネントをインポート
-import LoginModal from "../app/components/auth/LoginModal"; // パスは実際の構成に合わせてください
+import LoginModal from "../app/components/auth/LoginModal"; 
 
 export default function Header() {
   const { data: session } = useSession();
@@ -145,12 +144,6 @@ export default function Header() {
             >
               お問い合わせ
             </Link>
-            {/* 通知ベルマークを表示（ログイン中のみ表示する例） */}
-            {session && (
-              <Box sx={{ mx: 1 }}>
-                <NotificationBell />
-              </Box>
-            )}
             {session ? (
               <IconButton onClick={handleProfileMenuOpen} color="inherit">
                 <Avatar
