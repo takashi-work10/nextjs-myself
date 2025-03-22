@@ -23,7 +23,7 @@ export default async function DetailedResultPage() {
   
   let diagnosisResult: DiagnosisResult | null = null;
   try {
-    const res = await axios.get(`${baseUrl}/api/saveDiagnosis`, {
+    const res = await axios.get(`${baseUrl}/api/save-diagnosis`, {
       timeout: 5000,
     });
     diagnosisResult = res.data;

@@ -1,4 +1,4 @@
-// app/api/updateProfile/route.ts
+// app/api/update-profile/route.ts
 import { connectToDatabase } from "../../../lib/db";
 import UserProfile from "../../../models/UserProfile";
 

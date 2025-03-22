@@ -4,25 +4,18 @@ import { useState } from "react";
 import Button from '@mui/material/Button';
 
 export default function ContactPage() {
-  // それぞれの入力欄の値を管理するための箱を用意します
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  // 送信後に表示するメッセージを入れる箱
   const [status, setStatus] = useState("");
 
-  // フォームを送信したときに動く関数です
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // ページがリロードされるのを防ぎます
+    e.preventDefault(); 
 
-    // ここでは、入力された内容をコンソールに表示するだけです
-    // 実際はここでサーバーにデータを送る処理を追加できます
     console.log({ name, email, message });
 
-    // 送信が成功したと見なして、成功メッセージを表示します
     setStatus("お問い合わせありがとうございました！");
 
-    // 入力欄を空にします
     setName("");
     setEmail("");
     setMessage("");

@@ -1,6 +1,8 @@
-// app/profile/ProfileForm.tsx
 "use client";
+
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function ProfileForm({
   initialProfile,
@@ -21,18 +23,27 @@ export default function ProfileForm({
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const res = await fetch("/api/updateProfile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, email: userEmail, ...profile }),
-    });
-    if (res.ok) {
+  const updateProfileMutation = useMutation({
+    mutationFn: async (updatedProfile: {
+      userId: string;
+      email: string;
+      nickname: string;
+      grade: string;
+      school: string;
+    }) => {
+      return await axios.post("/api/update-profile", updatedProfile);
+    },
+    onSuccess: () => {
       alert("プロフィールが更新されました");
-    } else {
+    },
+    onError: () => {
       alert("更新に失敗しました");
-    }
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateProfileMutation.mutate({ userId, email: userEmail, ...profile });
   };
 
   return (
@@ -49,7 +60,9 @@ export default function ProfileForm({
         <label>志望校：</label>
         <input name="school" value={profile.school} onChange={handleChange} />
       </div>
-      <button type="submit">更新</button>
+      <button type="submit" disabled={updateProfileMutation.status === "pending"}>
+        更新
+      </button>
     </form>
   );
 }

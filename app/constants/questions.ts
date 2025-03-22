@@ -1,3 +1,5 @@
+// app/constants/question.ts 
+
 export const questions: string[] = [
     // 1～4: ゲーム＆映画フリークタイプ
     "Q1: 好きなゲームなら、英語モードで遊んでみたい。",

@@ -1,3 +1,5 @@
+// app/models/DiagnosisResult.ts
+
 import mongoose from "mongoose";
 
 

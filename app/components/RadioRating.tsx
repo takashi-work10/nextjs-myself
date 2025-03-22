@@ -1,3 +1,5 @@
+// app/components/RadioRating.tsx ratingOptionsでデフォルトのラジオボタンを作ったが、それだと味気ないので、ここでは
+
 "use client";
 
 import React from "react";

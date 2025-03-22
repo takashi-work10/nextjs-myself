@@ -22,6 +22,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
   post.likedBy.push(userId);
   post.likes += 1;
-  await post.save();
+  // いいね操作によって updatedAt を更新しないように保存
+  await post.save({ timestamps: false });
   return NextResponse.json(post, { status: 200 });
 }

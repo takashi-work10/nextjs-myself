@@ -15,7 +15,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import LoginModal from "../app/components/auth/LoginModal"; // パスは実際の構成に合わせてください
+import LoginModal from "../app/components/auth/LoginModal"; 
 
 export default function Header() {
   const { data: session } = useSession();
@@ -44,12 +44,18 @@ export default function Header() {
         </Link>
       </Box>
       <Box sx={{ mb: 2 }}>
-        <Link href="/community" style={{ textDecoration: "none", color: "#000" }}>
+        <Link
+          href="/community"
+          style={{ textDecoration: "none", color: "#000" }}
+        >
           コミュニティ
         </Link>
       </Box>
       <Box sx={{ mb: 2 }}>
-        <Link href="/contact" style={{ textDecoration: "none", color: "#000" }}>
+        <Link
+          href="/contact"
+          style={{ textDecoration: "none", color: "#000" }}
+        >
           お問い合わせ
         </Link>
       </Box>
@@ -59,7 +65,10 @@ export default function Header() {
             プロフィール
           </Button>
         ) : (
-          <Button onClick={() => setLoginModalOpen(true)} sx={{ textTransform: "none" }}>
+          <Button
+            onClick={() => setLoginModalOpen(true)}
+            sx={{ textTransform: "none" }}
+          >
             ログイン
           </Button>
         )}
@@ -83,7 +92,12 @@ export default function Header() {
           zIndex: 1100,
         }}
       >
-        <Toolbar sx={{ justifyContent: "space-between", minHeight: { xs: "50px", sm: "60px" } }}>
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            minHeight: { xs: "50px", sm: "60px" },
+          }}
+        >
           {/* 左側：ホームリンク（大画面用） */}
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <Link
@@ -98,8 +112,14 @@ export default function Header() {
               ホーム
             </Link>
           </Box>
+
           {/* 右側：リンク（大画面用） */}
-          <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+            }}
+          >
             <Link
               href="/community"
               style={{
@@ -126,18 +146,26 @@ export default function Header() {
             </Link>
             {session ? (
               <IconButton onClick={handleProfileMenuOpen} color="inherit">
-                <Avatar alt={session.user?.name || "User"} src={session.user?.image || undefined} />
+                <Avatar
+                  alt={session.user?.name || "User"}
+                  src={session.user?.image || undefined}
+                />
               </IconButton>
             ) : (
               <Button
                 color="inherit"
                 onClick={() => setLoginModalOpen(true)}
-                sx={{ fontSize: "1.1rem", textTransform: "none", fontWeight: "bold" }}
+                sx={{
+                  fontSize: "1.1rem",
+                  textTransform: "none",
+                  fontWeight: "bold",
+                }}
               >
                 ログイン
               </Button>
             )}
           </Box>
+
           {/* 小さい画面用：ハンバーガーメニュー */}
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
             <IconButton color="inherit" onClick={handleDrawerToggle}>

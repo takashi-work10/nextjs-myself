@@ -2,20 +2,18 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Box, Button } from "@mui/material";
+import { Container, Box, Button } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
 import QuestionItem from "../components/QuestionItem";
 import { questions } from "../constants/questions";
 import { useDiagnosis } from "../hooks/useDiagnosis";
 import { useMutation } from "@tanstack/react-query";
 
-// 送信するデータの型定義
 type DiagnosisPayload = {
   pattern: string;
   answers: (number | null)[];
 };
 
-// APIから返ってくる診断結果の型定義
 type DiagnosisResult = {
   pattern: string;
   answers: number[];
@@ -32,7 +30,7 @@ export default function Diagnosis() {
     DiagnosisPayload                // TVariables: 送信するpayloadの型
   >({
     mutationFn: (payload: DiagnosisPayload) =>
-      axios.post("/api/saveDiagnosis", payload, {
+      axios.post("/api/save-diagnosis", payload, {
         headers: { "Content-Type": "application/json" },
       }),
     onSuccess: () => {
@@ -54,7 +52,7 @@ export default function Diagnosis() {
   };
 
   return (
-    <Box
+    <Container
       style={{
         textAlign: "center",
         background: "linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)",
@@ -72,7 +70,7 @@ export default function Diagnosis() {
           borderRadius: "20px",
           boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
           margin: "auto",
-          maxWidth: { xs: "80%", sm: "80%", md: "80%" },
+          maxWidth: { xs: "100%", sm: "80%", md: "70%" },
           padding: { xs: "20px", sm: "30px", md: "40px" },
         }}
       >
@@ -91,7 +89,7 @@ export default function Diagnosis() {
             />
           ))}
         </Box>
-        <Box sx={{ margin: "30px 0" }}>
+        <Box sx={{ margin: "30px 0", textAlign: "center" }}>
           <Button
             variant="contained"
             onClick={handleSubmit}
@@ -102,6 +100,6 @@ export default function Diagnosis() {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Container>
   );
 }
