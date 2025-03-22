@@ -21,18 +21,19 @@ export async function POST(request: Request) {
     const body = await request.json();
     if (!body.content || !body.user) {
       return NextResponse.json(
-        { error: "Content, user are required" },
+        { error: "Content and user are required" },
         { status: 400 }
       );
     }
-    // ユーザープロフィールからニックネームを取得
-    const userProfile = await UserProfile.findOne({ userId: body.user });
-    console.log("UserProfile found:", userProfile);
-    // プロフィールが存在し、かつnicknameが設定されていればそれを、なければフォールバック値を使用
-    const nickname = userProfile && userProfile.nickname ? userProfile.nickname : "Unknown";
-    console.log("Computed nickname:", nickname);
     
-    const post = await Post.create({ ...body, nickname });
+    // 認証システムから渡されるユーザーID（文字列）で UserProfile を検索
+    const userProfile = await UserProfile.findOne({ userId: body.user });
+    if (!userProfile) {
+      return NextResponse.json({ error: "UserProfile not found" }, { status: 404 });
+    }
+    
+    // Post の user フィールドには、UserProfile の _id (ObjectId) をセットする
+    const post = await Post.create({ ...body, user: userProfile._id });
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
     console.error("Error in POST /api/posts:", error);

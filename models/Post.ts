@@ -1,10 +1,8 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import { Document, Model, Schema, model, models, } from "mongoose";
 
 type TPost = {
-  user: string;
-  nickname: string; // 追加：ユーザーのニックネーム
+  user: Schema.Types.ObjectId; 
   content: string;
-  category: string;
   createdAt: Date;
   updatedAt: Date;
   likes: number;
@@ -15,17 +13,16 @@ type PostDocument = Document & TPost;
 
 const PostSchema: Schema<PostDocument> = new Schema({
 
-  user: { type: String, required: true },
-  nickname: { type: String, required: true },
+  user: { type: Schema.Types.ObjectId, ref: "UserProfile", required: true },
   content: { type: String, required: true },
   likes: { type: Number, default: 0 },
   likedBy: { type: [String], default: [] },
   },
-  { timestamps: true } // このオプションで createdAt と updatedAt を自動で管理
+  { timestamps: true } 
   );
 
 const Post: Model<PostDocument> =
-  mongoose.models.Post || mongoose.model<PostDocument>("Post", PostSchema);
+  models.Post || model<PostDocument>("Post", PostSchema);
 
 export default Post;
 export type { TPost, PostDocument };

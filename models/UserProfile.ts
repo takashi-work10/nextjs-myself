@@ -1,12 +1,11 @@
 // models/UserProfile.ts
-import mongoose from "mongoose";
+import { Schema, model, models } from "mongoose";
 
-const UserProfileSchema = new mongoose.Schema({
-  userId: { type: String, required: true, unique: true },
+const UserProfileSchema = new Schema({
   email: { type: String, required: true, unique: true },
   nickname: { type: String, required: true },
   grade: { type: String },
-  school: { type: String }
-});
+  school: { type: String },
+}, { timestamps: true });
 
-export default mongoose.models.UserProfile || mongoose.model("UserProfile", UserProfileSchema);
+export default models.UserProfile || model("UserProfile", UserProfileSchema);
