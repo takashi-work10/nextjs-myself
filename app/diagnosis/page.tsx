@@ -97,6 +97,7 @@ export default function Diagnosis() {
             sx={{ fontSize: "30px", backgroundColor: "#CF9FFF", color: "#fff" }}
           >
             {mutation.status === "pending" ? "送信中..." : "結果を見る→"}
+          
           </Button>
         </Box>
       </Box>
